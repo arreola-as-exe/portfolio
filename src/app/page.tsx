@@ -1,14 +1,13 @@
 import Background from "@/components/background";
-import Banner from "@/components/sections/Banner";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import MainBannerSection from "@/components/sections/MainBanner";
+import ProjectsSection from "@/components/sections/Projects";
 
 export default function Home() {
   return (
     <main>
       <Background />
-      <Banner />
-
+      <MainBannerSection />
+      <ProjectsSection/>
     </main>
   );
 }
