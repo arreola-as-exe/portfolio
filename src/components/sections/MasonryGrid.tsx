@@ -28,7 +28,7 @@ const MasonryGrid: React.FC<{
 };
 
 const MasonryGridMomoized = React.memo(MasonryGrid, (prev, next) => {
-  return prev.columns === next.columns;
+  return prev.columns === next.columns && prev.className === next.className;
 });
 
 export {

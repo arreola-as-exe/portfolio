@@ -16,9 +16,7 @@ export const MainCategoriesHoverCard: React.FC<{
 
   return (
     <HoverContainer
-      className={cn(
-        "inter-var  "
-      )}
+      className={cn("inter-var  ")}
       style={
         {
           "--selectedcolor": hoveredCategory?.color || "#454c51",
@@ -36,7 +34,7 @@ export const MainCategoriesHoverCard: React.FC<{
       md:scale-[150%] 
       lg:scale-[180%] 
       2xl:scale-[175%]  
-          `,
+          `
         )}
       >
         <HoverItem
@@ -89,6 +87,14 @@ export const MainCategoriesHoverCard: React.FC<{
         <div className="absolute w-32 aspect-square top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 ">
           {categories.map((item, index, list) => (
             <CategoryCircle
+              onClick={() => {
+                console.log(item);
+                document
+                  ?.querySelector(`section#${item.slug}`)
+                  ?.scrollIntoView({
+                    behavior: "smooth",
+                  });
+              }}
               total={list.length}
               key={index}
               color={item.color}

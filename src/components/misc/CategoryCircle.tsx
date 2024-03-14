@@ -1,6 +1,13 @@
 "use client";
 import { cn } from "@/lib/utils";
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+  DetailedHTMLProps,
+  HTMLProps,
+} from "react";
 import { useMouseEnter } from "../utils/3dCard";
 
 export const CategoryCircle = ({
@@ -28,7 +35,7 @@ export const CategoryCircle = ({
   color?: string;
   onSelect?: () => void;
   onDeselect?: () => void;
-}) => {
+} & HTMLProps<HTMLDivElement>) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isCardMouseEntered] = useMouseEnter();
   const [isMouseEntered, setIsMouseEntered] = useState(false);

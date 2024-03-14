@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    dangerouslyAllowSVG: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -11,6 +12,12 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'hoori.com.mx',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.simpleicons.org',
         port: '',
         pathname: '/**',
       },

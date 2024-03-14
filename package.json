@@ -21,6 +21,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.0.1",
+    "react-visibility-sensor": "^5.1.1",
+    "simple-icons": "^11.8.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7"
   },
