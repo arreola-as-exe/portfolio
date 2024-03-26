@@ -93,7 +93,7 @@ export const CategoryCircle = ({
     <Tag
       style={
         {
-          "--itemcolor": color,
+          "--itemcolor": `rgb(${color})`,
         } as React.CSSProperties
       }
       ref={ref}

@@ -19,7 +19,7 @@ export const MainCategoriesHoverCard: React.FC<{
       className={cn("inter-var  ")}
       style={
         {
-          "--selectedcolor": hoveredCategory?.color || "#454c51",
+          "--selectedcolor": `rgb(${hoveredCategory?.color})` || "#454c51",
         } as React.CSSProperties
       }
       onLeave={() => {
@@ -29,11 +29,11 @@ export const MainCategoriesHoverCard: React.FC<{
       <HoverBody
         className={cn(
           ` relative group/card w-full aspect-square rounded-full p-3 
-          scale-[70%]
-      sm:scale-[120%]
-      md:scale-[150%] 
-      lg:scale-[180%] 
-      2xl:scale-[175%]  
+          scale-[90%]
+      sm:scale-[100%]
+      md:scale-[110%] 
+      lg:scale-[130%] 
+      2xl:scale-[160%]  
           `
         )}
       >

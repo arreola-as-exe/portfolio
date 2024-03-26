@@ -10,6 +10,8 @@ import {
 } from "../ui/tooltip";
 import Image from "next/image";
 import { IProject } from "@/domain/types";
+import { Button } from "../ui/button";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 // console.log(SimpleIcons);
 
@@ -127,18 +129,80 @@ const Title: React.FC<{
 const Description: React.FC<{
   className?: string;
 }> = ({ className }) => {
-  const { description } = useProjectData();
+  const { description, content } = useProjectData();
   const isOpen = useIsOpen();
   return (
-    <p
-      className={cn(
-        "text-sm lg:text-lg line-clamp-2",
-        [isOpen && "line-clamp-none"],
-        className
-      )}
-    >
-      {description}
-    </p>
+    <>
+      <div
+        className={cn(
+          "text-sm lg:text-lg line-clamp-2",
+          [isOpen && "line-clamp-none pointer-events-auto overflow-y-auto"],
+          className
+        )}
+      >
+        <p className="mb-3">{description}</p>
+        <div
+          className={cn("[&>*]:mb-3", {
+            hidden: !isOpen,
+          })}
+        >
+          {content?.map((item, index) => {
+            if (item.type === "text") {
+              return (
+                <p key={index} className="">
+                  {item.content}
+                </p>
+              );
+            }
+            if (item.type === "link") {
+              return (
+                <a
+                  key={index}
+                  href={item.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={cn(
+                    "px-3 py-2 rounded-lg transition-all border border-[rgba(var(--raw-color)/30%)] hover:border-[rgba(var(--raw-color)/100%)] bg-[rgba(var(--raw-color)/5%)] hover:bg-[rgba(var(--raw-color)/10%)] hover:shadow-lg border-opacity-10 inline-flex items-center group/link"
+                  )}
+                >
+                  <Image
+                    width={32}
+                    height={32}
+                    src={`https://cdn.simpleicons.org/${item.icon}/white`}
+                    alt={item.title}
+                    className={cn(
+                      "h-6 w-auto aspect-square object-cover transition-all duration-500 opacity-80 hover:opacity-100 filter drop-shadow-md cursor-pointer scale-125 group-hover/link:scale-100",
+                      {
+                        "group-hover/link:mr-2": item.title,
+                      }
+                    )}
+                  />
+                  <span
+                    className={cn(
+                      "text-2xl transition-all duration-500 max-w-0 group-hover/link:max-w-96 opacity-0 group-hover/link:opacity-100 ",
+                      {}
+                    )}
+                  >
+                    {item.title}
+                  </span>
+                  {/* <FaExternalLinkAlt className="inline-block ml-2 outline-0" /> */}
+                </a>
+              );
+            }
+            if (item.type === "image") {
+              return (
+                <img
+                  key={index}
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-auto"
+                />
+              );
+            }
+          })}
+        </div>
+      </div>
+    </>
   );
 };
 

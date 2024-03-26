@@ -4,9 +4,9 @@ import SectionHeader from "../misc/SectionHeader";
 import { cn } from "@/lib/utils";
 import { FaChevronRight } from "react-icons/fa6";
 import Image from "next/image";
-import Card, { CardContainer } from "./Project";
+import Card, { CardContainer } from "../misc/Project";
 import { TailwindConfig } from "@/lib/twConfig";
-import { MasonryGrid } from "./MasonryGrid";
+import { MasonryGrid } from "../misc/MasonryGrid";
 import { useWindowDimensions } from "../utils/hooks/windowDimensions";
 import { parseNumbers } from "../utils";
 import { useMainCategories } from "@/app/hooks/useCategories";
@@ -53,8 +53,25 @@ const ProjectsSection = () => {
       slug: "project-1",
       title: "Project Title",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
       technologies: technologies,
+      content: [
+        {
+          type: "text",
+          content:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        },
+        {
+          type: "link",
+          title: "Hoori",
+          url: "https://hoori.com.mx",
+        },
+        {
+          type: "image",
+          title: "Hoori",
+          image: `https://source.unsplash.com/random/800x600?sid=project1`,
+        },
+      ],
       company: {
         name: "Hoori",
         url: "https://hoori.com.mx",
@@ -66,8 +83,16 @@ const ProjectsSection = () => {
       slug: "project-2",
       title: "Project Title",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       technologies: technologies,
+      content: [
+        {
+          type: "link",
+          title: "Hoori",
+          icon: 'github',
+          url: "https://hoori.com.mx",
+        },
+      ],
       company: {
         name: "Where Is My Transport",
         url: "https://hoori.com.mx",
@@ -162,7 +187,9 @@ export const Category: React.FC<{
       className="md:px-10 pt-8 mt-52"
       style={
         {
-          "--color": category.color,
+          "--raw-color": category.color,
+          "--color": `rgb(${ category.color })`,
+          "--itemcolor": `rgb(${ category.color })`,
         } as React.CSSProperties
       }
     >

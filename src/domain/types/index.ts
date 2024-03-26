@@ -33,10 +33,32 @@ export interface ITechnology {
   color?: string;
 }
 
+export type TextItem = {
+  type: "text";
+  content: string;
+};
+
+
+export type LinkItem = {
+  type: "link";
+  icon?: string;
+  title: string;
+  url: string;
+}
+
+export type ImageItem = {
+  type: "image";
+  title: string;
+  image: string;
+}
+
+export type Item = TextItem | LinkItem | ImageItem;
+
 export interface IProject {
   slug: string;
   title: string;
   description: string;
+  content?: Item[]
   technologies: ITechnology[];
   company?: ICompany;
   image: string;

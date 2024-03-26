@@ -53,7 +53,7 @@ export const Right = () => {
     >
       <div className="
       md:-translate-y-24 
-      lg:-translate-y-80 lg:-translate-x-44
+      lg:-translate-y-40 lg:-translate-x-20
       2xl:translate-y-0 2xl:-translate-x-20
       ">
         <MainCategoriesHoverCard />

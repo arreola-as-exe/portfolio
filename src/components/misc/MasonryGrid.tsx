@@ -6,7 +6,7 @@ const MasonryGrid: React.FC<{
   className: string;
   children: Iterable<React.ReactNode>;
 }> = ({ columns, className, children }) => {
-  console.log("Rerender");
+  // console.log("Rerender");
   return (
     <div
       className={cn("grid gap-x-4", className)}
