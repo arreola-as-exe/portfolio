@@ -1,3 +1,4 @@
+'use client'
 import { useSocialLinks } from "@/app/hooks/useSocialLinks";
 import { IIcon } from "@/domain/types";
 import React from "react";
@@ -19,7 +20,7 @@ const SocialLinks = () => {
       icons={socialMedia.map((icon) => {
         return {
           url: icon.url,
-          icon: Icons[icon.key],
+          icon: Icons[icon.key] ?? Icons.github,
           color: icon.color,
         };
       })}

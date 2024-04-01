@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import React, { createContext, useState, useContext } from "react";
 import { HoverBody, HoverContainer, HoverItem } from "../utils/3dCard";
 import { CategoryCircle } from "./CategoryCircle";
+import Image from "next/image";
 
 export const MainCategoriesHoverCard: React.FC<{
   classname?: string;
