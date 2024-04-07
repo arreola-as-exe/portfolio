@@ -1,5 +1,4 @@
 import type { IconType } from "react-icons"
-import { TIconsSlugs } from "./simpleicons"
 
 export interface ICategory {
   id: number
@@ -54,14 +53,23 @@ export type ImageItem = {
 
 export type Item = TextItem | LinkItem | ImageItem
 
-export interface IProject {
+export interface IEntryModel {
   slug: string
   title: string
   description: string
   content?: Item[]
   technologies: ITechnology[]
-  company?: ICompany
-  image: string
+  brand?: ICompany
+  image: string | null
+  category?: ICategory
+  type?: IEntryType
+  badges?: IBadge[]
+}
+
+export interface IEntryType {
+  id: number
+  pluralLabel: string
+  singularLabel: string
 }
 
 export interface IBadge {
@@ -73,9 +81,10 @@ export interface IBadge {
 
 export interface IEntry {
   id: number
+  slug: string
   title: string
   description: string
-  image: string
+  image: string | null
   type: TRefId
   category: TRefId
   // links: ILink[]

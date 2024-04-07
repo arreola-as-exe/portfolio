@@ -1,25 +1,24 @@
-"use client";
-import React from "react";
-import { cn } from "@/lib/utils";
-import { FaChevronDown } from "react-icons/fa6";
+"use client"
+import React, { useMemo } from "react"
+import { cn } from "@/lib/utils"
+import { FaChevronDown } from "react-icons/fa6"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip";
-import Image from "next/image";
-import { IProject } from "@/domain/types";
-import { Button } from "../ui/button";
-import { FaExternalLinkAlt } from "react-icons/fa";
+} from "../ui/tooltip"
+import Image from "next/image"
+import { IBadge, IEntryModel } from "@/domain/types"
+import { useBadgesContext } from "@/app/data/contexts"
 
 // console.log(SimpleIcons);
 
 const ProjectContext = React.createContext<{
-  open: boolean;
-  toggle: () => void;
-  isHovered: boolean;
-  data: IProject;
+  open: boolean
+  toggle: () => void
+  isHovered: boolean
+  data: IEntryModel
 }>({
   data: {
     slug: "Dummy project",
@@ -28,28 +27,29 @@ const ProjectContext = React.createContext<{
     technologies: [],
     // company: null,
     image: "",
+    badges: [],
   },
   isHovered: false,
   open: false,
   toggle: () => {},
-});
+})
 
 const useProjectData = () => {
-  return React.useContext(ProjectContext).data;
-};
+  return React.useContext(ProjectContext).data
+}
 
 const useIsOpen = () => {
-  return React.useContext(ProjectContext).open;
-};
+  return React.useContext(ProjectContext).open
+}
 
 export const CardContainer: React.FC<{
-  children: React.ReactNode;
-  data: IProject;
+  children: React.ReactNode
+  data: IEntryModel
 }> = ({ children, data }) => {
-  const [open, setOpen] = React.useState(false);
-  const [isHovered, setIsHovered] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
+  const [isHovered, setIsHovered] = React.useState(false)
   function toggle() {
-    setOpen(!open);
+    setOpen(!open)
   }
 
   return (
@@ -76,41 +76,41 @@ export const CardContainer: React.FC<{
         {children}
       </div>
     </ProjectContext.Provider>
-  );
-};
+  )
+}
 
 const CardBody: React.FC<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }> = ({ children }) => {
   return (
     <div className="grid grid-cols-[4fr_minmax(10px,1fr)] grid-rows-1 gap-2 z-10 h-full pointer-events-none">
       {children}
     </div>
-  );
-};
+  )
+}
 
 const LeftPanel: React.FC<{
-  className?: string;
-  children: React.ReactNode;
+  className?: string
+  children: React.ReactNode
 }> = ({ children, className }) => {
-  return <div className={cn("flex flex-col gap-3", className)}>{children}</div>;
-};
+  return <div className={cn("flex flex-col gap-3", className)}>{children}</div>
+}
 
 const RightPanel: React.FC<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }> = ({ children }) => {
   return (
     <div className="flex flex-col justify-between -translate-y-3 lg:-translate-y-6 row-span-2 items-end h-full gap-5">
       {children}
     </div>
-  );
-};
+  )
+}
 
 const Title: React.FC<{
-  className?: string;
+  className?: string
 }> = ({ className }) => {
-  const { title } = useProjectData();
-  const isOpen = useIsOpen();
+  const { title } = useProjectData()
+  const isOpen = useIsOpen()
   return (
     <h4
       className={cn(
@@ -123,14 +123,14 @@ const Title: React.FC<{
     >
       {title}
     </h4>
-  );
-};
+  )
+}
 
 const Description: React.FC<{
-  className?: string;
+  className?: string
 }> = ({ className }) => {
-  const { description, content } = useProjectData();
-  const isOpen = useIsOpen();
+  const { description, content } = useProjectData()
+  const isOpen = useIsOpen()
   return (
     <>
       <div
@@ -152,7 +152,7 @@ const Description: React.FC<{
                 <p key={index} className="">
                   {item.content}
                 </p>
-              );
+              )
             }
             if (item.type === "link") {
               return (
@@ -187,7 +187,7 @@ const Description: React.FC<{
                   </span>
                   {/* <FaExternalLinkAlt className="inline-block ml-2 outline-0" /> */}
                 </a>
-              );
+              )
             }
             if (item.type === "image") {
               return (
@@ -197,20 +197,32 @@ const Description: React.FC<{
                   alt={item.title}
                   className="w-full h-auto"
                 />
-              );
+              )
             }
           })}
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
 const Technologies: React.FC<{
-  className?: string;
+  className?: string
 }> = ({ className }) => {
-  const { technologies } = useProjectData();
-  const isOpen = useIsOpen();
+  const entryBadges = useProjectData().badges
+  const globalBadges = useBadgesContext()
+
+  const badges = useMemo((): IBadge[] => {
+    if (!entryBadges) return []
+    return entryBadges
+      ?.map((badge) => {
+        const technology = globalBadges.find((b) => b.id === badge.id)
+        return technology ?? null
+      })
+      .filter((badge) => badge !== null) as IBadge[]
+  }, [entryBadges])
+
+  const isOpen = useIsOpen()
   return (
     <div
       className={cn(
@@ -218,39 +230,42 @@ const Technologies: React.FC<{
         className
       )}
     >
-      {technologies.map(({ name, slug, color }, index) => (
+      {badges.map((badge, index) => (
         <TooltipProvider key={index}>
           <Tooltip>
             <TooltipTrigger>
               <div
-                className={cn("w-6 aspect-square relative", {
-                  "w-8": isOpen,
-                })}
+                className={cn(
+                  "w-6 aspect-square relative fill-white transition-all opacity-80 hover:opacity-100 filter drop-shadow-md cursor-pointer",
+                  {
+                    "w-8": isOpen,
+                  }
+                )}
               >
-                <Image
-                  width={32}
-                  height={32}
-                  src={`https://cdn.simpleicons.org/${slug}/white`}
-                  alt={name}
-                  className="w-full h-full object-cover transition-all opacity-80 hover:opacity-100 filter drop-shadow-md cursor-pointer"
-                />
+                <div
+                  className="pointer-events-none"
+                  dangerouslySetInnerHTML={{
+                    __html: badge.svg || "",
+                  }}
+                  aria-disabled={true}
+                ></div>
               </div>
             </TooltipTrigger>
             <TooltipContent>
-              <p>{name}</p>
+              <p>{badge.title}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       ))}
     </div>
-  );
-};
+  )
+}
 
-const Company = () => {
-  const { company } = useProjectData();
-  if (!company) return null;
+const Brand = () => {
+  const { brand: company } = useProjectData()
+  if (!company) return null
 
-  const { name, url, image } = company;
+  const { name, url, image } = company
   return (
     <div className=" flex w-full max-w-32 max-h-16 pointer-events-auto">
       <TooltipProvider>
@@ -264,7 +279,7 @@ const Company = () => {
                 alt={name}
                 className=" h-full object-contain"
                 onClick={(e) => {
-                  alert("clicked");
+                  alert("clicked")
                 }}
               />
             )}
@@ -275,12 +290,15 @@ const Company = () => {
         </Tooltip>
       </TooltipProvider>
     </div>
-  );
-};
+  )
+}
 
 const BackgroundImage = () => {
-  const { open, toggle, isHovered } = React.useContext(ProjectContext);
-  const { image, slug } = useProjectData();
+  const { open, toggle, isHovered } = React.useContext(ProjectContext)
+  const { image, slug } = useProjectData()
+
+  const imgUrl =
+    image ?? `https://source.unsplash.com/random/800x600?sid=${slug}`
 
   return (
     <div
@@ -300,7 +318,7 @@ const BackgroundImage = () => {
             },
             [isHovered ? "scale-125" : "scale-100"]
           )}
-          src={`https://source.unsplash.com/random/800x600?sid=${slug}`}
+          src={imgUrl}
         ></img>
         <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_0_0,black,transparent_50%,black)]"></div>
       </div>
@@ -313,8 +331,8 @@ const BackgroundImage = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
 const Card = {
   Container: CardContainer,
@@ -327,7 +345,7 @@ const Card = {
   Title,
   Description,
   Technologies,
-  Company,
-};
+  Company: Brand,
+}
 
-export default Card;
+export default Card

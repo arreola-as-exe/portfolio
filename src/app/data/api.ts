@@ -3,6 +3,7 @@ import {
   IBrand,
   ICategory,
   IEntry,
+  IEntryType,
   ILink,
   TRefId,
 } from "@/domain/types"
@@ -56,11 +57,16 @@ export const getEntries = async () => {
   for (let i = 0; i < data.list.length; i++) {
     const entry = data.list[i]
 
+    const imagePath = getFirstAttachmentPath(entry.image)
+
+    const imageUrl = imagePath ? API_URL + "/" + imagePath : null
+
     entries.push({
       id: entry.id,
+      slug: entry.slug,
       title: entry.title,
       description: entry.description,
-      image: API_URL + "/" + getFirstAttachmentPath(entry.image),
+      image: imageUrl,
       category: entry.category,
       badges:
         (badgesProp &&
@@ -119,7 +125,7 @@ export const getBrands = async () => {
 
   const brands: IBrand[] = []
 
-  for (let i = 0; i < data.list?.length; i++){
+  for (let i = 0; i < data.list?.length; i++) {
     const brand = data.list[i]
 
     brands.push({
@@ -129,7 +135,7 @@ export const getBrands = async () => {
       image: API_URL + "/" + getFirstAttachmentPath(brand.logo),
     })
   }
-   return brands
+  return brands
 }
 
 export const getBadges = async () => {
@@ -150,4 +156,21 @@ export const getBadges = async () => {
   }
 
   return badges
+}
+
+export const getEntryTypes = async () => {
+  const endpoint = process.env.API_ENDPOINT_ENTRY_TYPES ?? ""
+  const data = await handleApiFetch(endpoint, ["entry_types"])
+
+  const entryTypes: IEntryType[] = []
+
+  for (const entryType of data.list ?? []) {
+    entryTypes.push({
+      id: entryType.id,
+      pluralLabel: entryType.plural_label,
+      singularLabel: entryType.singular_label,
+    })
+  }
+
+  return entryTypes
 }
