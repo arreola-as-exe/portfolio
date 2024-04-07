@@ -11,8 +11,7 @@ import {
 import Image from "next/image"
 import { IBadge, IEntryModel } from "@/domain/types"
 import { useBadgesContext } from "@/app/data/contexts"
-
-// console.log(SimpleIcons);
+import LinkButton from "./LinkButton"
 
 const ProjectContext = React.createContext<{
   open: boolean
@@ -129,10 +128,35 @@ const Title: React.FC<{
 const Description: React.FC<{
   className?: string
 }> = ({ className }) => {
-  const { description, content } = useProjectData()
+  const { description, content, externalLink } = useProjectData()
   const isOpen = useIsOpen()
   return (
     <>
+      <div className="flex flex-col">
+        <div
+          className={cn(
+            "text-sm lg:text-lg line-clamp-2 w-fit",
+            [isOpen && "line-clamp-none pointer-events-auto overflow-y-auto"],
+            className
+          )}
+        >
+          <p className="">{description}</p>
+        </div>
+        {externalLink && (
+          <div
+            className={cn("w-fit", [
+              isOpen && "pointer-events-auto overflow-y-auto",
+            ])}
+          >
+            <LinkButton
+              url={externalLink.url}
+              label={externalLink.label}
+              icon_svg={externalLink.icon_svg}
+            />
+          </div>
+        )}
+      </div>
+
       <div
         className={cn(
           "text-sm lg:text-lg line-clamp-2",
@@ -140,7 +164,6 @@ const Description: React.FC<{
           className
         )}
       >
-        <p className="mb-3">{description}</p>
         <div
           className={cn("[&>*]:mb-3", {
             hidden: !isOpen,
@@ -272,16 +295,15 @@ const Brand = () => {
         <Tooltip>
           <TooltipTrigger className="">
             {image !== undefined && (
-              <Image
-                width={100}
-                height={25}
-                src={image}
-                alt={name}
-                className=" h-full object-contain"
-                onClick={(e) => {
-                  alert("clicked")
-                }}
-              />
+              <a href={url} target="_blank">
+                <Image
+                  width={100}
+                  height={25}
+                  src={image}
+                  alt={name}
+                  className=" h-full object-contain"
+                />
+              </a>
             )}
           </TooltipTrigger>
           <TooltipContent>
@@ -325,8 +347,8 @@ const BackgroundImage = () => {
       <div className="absolute bottom-8 left-8">
         <FaChevronDown
           size={24}
-          className={cn("transition-all", {
-            "rotate-180": open,
+          className={cn("transition-all duration-500", {
+            "-rotate-180": open,
           })}
         />
       </div>

@@ -38,15 +38,18 @@ export const useEntries = () => {
         technologies: [],
         brand:
           (brand && {
-            name: brand.title,
-            url: brand.title,
+            id: brand.id,
+            name: brand.name,
+            url: brand.url,
             image: brand.image,
+            description: brand.description,
           }) ??
           undefined,
         image: entry.image,
         badges: entryBadges,
         category,
         type,
+        externalLink: entry.externalLink ?? undefined,
       }
     })
   }, [entries])

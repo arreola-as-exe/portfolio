@@ -1,6 +1,13 @@
 "use client"
-import { IBadge, IBrand, ICategory, IEntry, IEntryType, ILink } from "@/domain/types"
-import { createContext, useContext } from "react"
+import {
+  IBadge,
+  IBrand,
+  ICategory,
+  IEntry,
+  IEntryType,
+  ILink,
+} from "@/domain/types"
+import { createContext, useContext, useEffect } from "react"
 
 interface IDataContext {
   categories: ICategory[]
@@ -28,6 +35,9 @@ export const DataProvider: React.FC<{
   children: React.ReactNode
   data: IDataContext
 }> = ({ children, data }) => {
+  useEffect(() => {
+    console.log(data)
+  }, [])
   return <dataContext.Provider value={data}>{children}</dataContext.Provider>
 }
 

@@ -21,12 +21,6 @@ export interface ILink {
   key: string
 }
 
-export interface ICompany {
-  name: string
-  url?: string
-  image?: string
-}
-
 export interface ITechnology {
   name: string
   slug: string
@@ -59,17 +53,24 @@ export interface IEntryModel {
   description: string
   content?: Item[]
   technologies: ITechnology[]
-  brand?: ICompany
+  brand?: IBrand
   image: string | null
   category?: ICategory
   type?: IEntryType
   badges?: IBadge[]
+  externalLink?: IExternalLink
 }
 
 export interface IEntryType {
   id: number
   pluralLabel: string
   singularLabel: string
+}
+
+export interface IExternalLink {
+  url: string
+  label?: string
+  icon_svg?: string
 }
 
 export interface IBadge {
@@ -90,13 +91,15 @@ export interface IEntry {
   // links: ILink[]
   brand: TRefId
   badges: TRefId[]
+  externalLink: IExternalLink | null
 }
 
 export interface IBrand {
   id: number
-  title: string
-  description: string
+  name: string
+  description?: string
   image: string
+  url: string
 }
 
 export type TRefId = {

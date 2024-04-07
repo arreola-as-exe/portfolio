@@ -4,6 +4,7 @@ import {
   ICategory,
   IEntry,
   IEntryType,
+  IExternalLink,
   ILink,
   TRefId,
 } from "@/domain/types"
@@ -58,8 +59,15 @@ export const getEntries = async () => {
     const entry = data.list[i]
 
     const imagePath = getFirstAttachmentPath(entry.image)
-
     const imageUrl = imagePath ? API_URL + "/" + imagePath : null
+
+    const externalLink: IExternalLink | null =
+      (entry.external_link_url && {
+        url: entry.external_link_url,
+        label: entry.external_link_label,
+        icon_svg: await getFirstAttachmentAsSvg(entry.external_link_svg) ?? null,
+      }) ||
+      null
 
     entries.push({
       id: entry.id,
@@ -78,6 +86,7 @@ export const getEntries = async () => {
         [],
       brand: entry.brand,
       type: entry.type,
+      externalLink,
     })
   }
 
@@ -130,9 +139,10 @@ export const getBrands = async () => {
 
     brands.push({
       id: brand.id,
-      title: brand.title,
+      name: brand.title,
       description: brand.description,
       image: API_URL + "/" + getFirstAttachmentPath(brand.logo),
+      url: brand.url,
     })
   }
   return brands
