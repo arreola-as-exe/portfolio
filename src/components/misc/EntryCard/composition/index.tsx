@@ -71,7 +71,7 @@ export const CardContainer: React.FC<{
           }
         )}
         style={{
-          transitionDelay: `${index * 0.1}s`,
+          transitionDelay: `opacity ${index * 0.1}s`,
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -343,7 +343,7 @@ const Date = () => {
 
 const BackgroundImage = () => {
   const { open, toggle, isHovered } = React.useContext(ProjectContext)
-  const { image, slug } = useProjectData()
+  const { image, slug, title } = useProjectData()
 
   const imgUrl =
     image ?? `https://source.unsplash.com/random/800x600?sid=${slug}`
@@ -357,7 +357,10 @@ const BackgroundImage = () => {
       onClick={toggle}
     >
       <div className="absolute inset-0 -z-10 overflow-clip">
-        <img
+        <Image
+          alt={title}
+          width={800}
+          height={600}
           loading="lazy"
           className={cn(
             "w-full h-full object-cover transition-all brightness-75 motion-reduce:transition-none motion-reduce:hover:transform-none",
@@ -367,8 +370,8 @@ const BackgroundImage = () => {
             [isHovered ? "scale-125" : "scale-100"]
           )}
           src={imgUrl}
-        ></img>
-        <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_0_0,black,transparent_50%,black)]"></div>
+        ></Image>
+        <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_0_0,black,#0003_50%,black)]"></div>
       </div>
       <div className="absolute bottom-8 left-8">
         <FaChevronDown
