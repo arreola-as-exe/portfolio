@@ -19,14 +19,16 @@ const EntriesSection = () => {
   const categories = useMainCategories()
 
   const { width } = useWindowDimensions()
-  const [columns, setColumns] = useState(1)
+  const [columns, setColumns] = useState<number | null>(null)
 
   useEffect(() => {
     setColumns(width > maxWidth ? 2 : 1)
   }, [width])
 
   return (
-    <div className="min-h-svh py-10 ring-green-400 mt-20">
+    <div className={cn("min-h-svh py-10 ring-green-400 mt-20 group/entriessection", {
+      "ready": columns !== null,
+    })}>
       {/* <pre>
         <code>{JSON.stringify({ entriesModels }, null, 2)}</code>
       </pre> */}
@@ -37,7 +39,7 @@ const EntriesSection = () => {
           entries={entriesModels.filter(
             (entry) => entry.category?.slug === category.slug
           )}
-          columns={columns}
+          columns={columns ?? 1}
         />
       ))}
     </div>
@@ -194,11 +196,10 @@ export const TypeGroupSection: React.FC<{
         <div className=" h-full sticky top-0 right-0 w-px bg-[var(--color)] shadow-sm shadow-[var(--color)] md:hidden"></div>
       </div>
       <MasonryGrid columns={columns} className=" mx-auto w-full ">
-        {projects.map((project) => (
-          <EntryCard key={project.slug} entry={project} />
+        {projects.map((project, index) => (
+          <EntryCard key={project.slug} entry={project} index={index} />
         ))}
       </MasonryGrid>
     </>
   )
 }
-

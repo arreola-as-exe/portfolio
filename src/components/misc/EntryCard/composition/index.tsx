@@ -44,7 +44,8 @@ const useIsOpen = () => {
 export const CardContainer: React.FC<{
   children: React.ReactNode
   data: IEntryModel
-}> = ({ children, data }) => {
+  index: number
+}> = ({ children, data, index }) => {
   const [open, setOpen] = React.useState(false)
   const [isHovered, setIsHovered] = React.useState(false)
   function toggle() {
@@ -62,13 +63,16 @@ export const CardContainer: React.FC<{
     >
       <div
         className={cn(
-          "flex flex-col relative p-6 gap-1 py-10 h-[20rem] transition-all ease-out group",
+          "flex flex-col relative p-6 gap-1 py-10 h-[20rem] transition-all ease-out group opacity-0 group-[.ready]/entriessection:opacity-100 ",
           [open && "h-[40rem]"],
           {
             "my-2": open,
             open: open,
           }
         )}
+        style={{
+          transitionDelay: `${index * 0.1}s`,
+        }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -113,7 +117,7 @@ const Title: React.FC<{
   return (
     <h4
       className={cn(
-        "text-lg sm:text-xl lg:text-xl font-semibold",
+        "text-lg sm:text-xl lg:text-2xl font-semibold",
         {
           "text-2xl sm:text-2xl lg:text-3xl": isOpen,
         },

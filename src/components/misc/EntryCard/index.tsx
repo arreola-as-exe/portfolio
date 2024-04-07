@@ -6,9 +6,10 @@ import {
 
 export const EntryCard: React.FC<{
   entry: IEntryModel
-}> = ({ entry }) => {
+  index: number
+}> = ({ entry, index }) => {
   return (
-    <CardLayout.Container data={entry}>
+    <CardLayout.Container data={entry} index={index}>
       <CardLayout.Background.Image />
       <CardLayout.Body>
         <CardLayout.LeftPanel>
