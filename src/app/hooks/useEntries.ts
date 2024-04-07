@@ -15,7 +15,7 @@ export const useEntries = () => {
     return entries.map((entry): IEntryModel => {
       const brand = brands.find((brand) => brand.id === entry.brand?.id)
       const category = categories.find(
-        (category) => category.id === entry.category.id
+        (category) => category.id === entry.category?.id
       )
       const entryBadges = entry.badges
         .map((badge) => {
