@@ -50,6 +50,7 @@ export const useEntries = () => {
         category,
         type,
         externalLink: entry.externalLink ?? undefined,
+        date_string: entry.date_string,
       }
     })
   }, [entries])

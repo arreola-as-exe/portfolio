@@ -7,11 +7,11 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip"
+} from "../../../ui/tooltip"
 import Image from "next/image"
 import { IBadge, IEntryModel } from "@/domain/types"
 import { useBadgesContext } from "@/app/data/contexts"
-import LinkButton from "./LinkButton"
+import LinkButton from "../../LinkButton"
 
 const ProjectContext = React.createContext<{
   open: boolean
@@ -229,7 +229,7 @@ const Description: React.FC<{
   )
 }
 
-const Technologies: React.FC<{
+const Badges: React.FC<{
   className?: string
 }> = ({ className }) => {
   const entryBadges = useProjectData().badges
@@ -290,7 +290,7 @@ const Brand = () => {
 
   const { name, url, image } = company
   return (
-    <div className=" flex w-full max-w-32 max-h-16 pointer-events-auto">
+    <div className=" flex w-full justify-center max-h-16 pointer-events-auto">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger className="">
@@ -311,6 +311,28 @@ const Brand = () => {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+    </div>
+  )
+}
+
+const Date = () => {
+  const { date_string } = useProjectData()
+  const isOpen = useIsOpen()
+
+  return (
+    <div
+      className={cn(
+        " flex justify-center min-w-full transition-all opacity-0",
+        {
+          "opacity-100": isOpen,
+        }
+      )}
+    >
+      {date_string && (
+        <span className="font-semibold translate-y-[-1.8rem] sm:translate-y-[-1rem] text-2xl text-right lg:text-3xl lg:text-center whitespace-nowrap">
+          {date_string}
+        </span>
+      )}
     </div>
   )
 }
@@ -356,7 +378,7 @@ const BackgroundImage = () => {
   )
 }
 
-const Card = {
+export const EntryCardLayoutComponents = {
   Container: CardContainer,
   Background: {
     Image: BackgroundImage,
@@ -364,10 +386,13 @@ const Card = {
   Body: CardBody,
   LeftPanel,
   RightPanel,
-  Title,
-  Description,
-  Technologies,
-  Company: Brand,
 }
 
-export default Card
+export const EntryCardDataComponents = {
+  Title,
+  Description,
+  Badges,
+  Brand,
+  BackgroundImage,
+  Date,
+}

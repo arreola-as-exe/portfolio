@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useMemo, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
-import Card, { CardContainer } from "../misc/Project"
 import { TailwindConfig } from "@/lib/twConfig"
 import { MasonryGrid } from "../misc/MasonryGrid"
 import { useWindowDimensions } from "../utils/hooks/windowDimensions"
@@ -11,11 +10,11 @@ import { ICategory, IEntryModel } from "@/domain/types"
 import { useMotionValueEvent, useScroll } from "framer-motion"
 import { useDataContext } from "@/app/data/contexts"
 import { useEntries } from "@/app/hooks/useEntries"
+import { EntryCard } from "../misc/EntryCard"
 
 const maxWidth = parseNumbers(TailwindConfig.theme.screens["xl"])
 
 const EntriesSection = () => {
-
   const entriesModels = useEntries()
   const categories = useMainCategories()
 
@@ -32,7 +31,7 @@ const EntriesSection = () => {
         <code>{JSON.stringify({ entriesModels }, null, 2)}</code>
       </pre> */}
       {categories.map((category) => (
-        <EntriesCategory
+        <CategorySection
           key={category.label}
           category={category}
           entries={entriesModels.filter(
@@ -69,7 +68,7 @@ export const CategoryIcon: React.FC<{
   )
 }
 
-export const EntriesCategory: React.FC<{
+export const CategorySection: React.FC<{
   category: ICategory
   entries: IEntryModel[]
   columns?: number
@@ -165,7 +164,7 @@ export const EntriesCategory: React.FC<{
         </div>
         <div className=" "></div>
         {types.map((label, i) => (
-          <CategoryTypeSection
+          <TypeGroupSection
             key={i}
             label={label.pluralLabel}
             columns={columns}
@@ -177,7 +176,7 @@ export const EntriesCategory: React.FC<{
   )
 }
 
-export const CategoryTypeSection: React.FC<{
+export const TypeGroupSection: React.FC<{
   label?: string
   columns: number
   projects: IEntryModel[]
@@ -196,22 +195,10 @@ export const CategoryTypeSection: React.FC<{
       </div>
       <MasonryGrid columns={columns} className=" mx-auto w-full ">
         {projects.map((project) => (
-          <CardContainer key={project.slug} data={project}>
-            <Card.Background.Image />
-            <Card.Body>
-              <Card.LeftPanel>
-                <Card.Title className="mb-2" />
-                <Card.Description className="mb-2" />
-                <Card.Technologies className="group-[.open]:mt-auto group-[.open]:mb-3" />
-              </Card.LeftPanel>
-              <Card.RightPanel>
-                <div></div>
-                <Card.Company />
-              </Card.RightPanel>
-            </Card.Body>
-          </CardContainer>
+          <EntryCard key={project.slug} entry={project} />
         ))}
       </MasonryGrid>
     </>
   )
 }
+

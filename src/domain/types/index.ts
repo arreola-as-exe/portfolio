@@ -59,6 +59,7 @@ export interface IEntryModel {
   type?: IEntryType
   badges?: IBadge[]
   externalLink?: IExternalLink
+  date_string?: string
 }
 
 export interface IEntryType {
@@ -92,6 +93,7 @@ export interface IEntry {
   brand: TRefId
   badges: TRefId[]
   externalLink: IExternalLink | null
+  date_string: string
 }
 
 export interface IBrand {

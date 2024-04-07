@@ -87,6 +87,7 @@ export const getEntries = async () => {
       brand: entry.brand,
       type: entry.type,
       externalLink,
+      date_string: entry.date_string,
     })
   }
 
