@@ -1,5 +1,5 @@
 import Background from "@/components/background"
-import ContactSection from "@/components/sections/Contact"
+import ContactSection from "@/components/sections/ContactSection"
 import MainBannerSection from "@/components/sections/MainBanner"
 import EntriesSection from "@/components/sections/EntriesSection"
 import {
@@ -36,6 +36,7 @@ export default async function Home() {
 
   return (
     <main>
+      <Background />
       <DataProvider
         data={{
           badges,
@@ -46,7 +47,6 @@ export default async function Home() {
           entryTypes,
         }}
       >
-        <Background />
         <MainBannerSection />
         <EntriesSection />
         <ContactSection />

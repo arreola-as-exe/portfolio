@@ -216,16 +216,6 @@ const Description: React.FC<{
                 </a>
               )
             }
-            if (item.type === "image") {
-              return (
-                <img
-                  key={index}
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-auto"
-                />
-              )
-            }
           })}
         </div>
       </div>
@@ -253,7 +243,7 @@ const Badges: React.FC<{
   return (
     <div
       className={cn(
-        "pointer-events-auto inline-flex flex-wrap gap-3",
+        "pointer-events-auto inline-flex flex-wrap gap-3 w-fit",
         className
       )}
     >

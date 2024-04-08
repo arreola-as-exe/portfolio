@@ -3,13 +3,7 @@ import { useMemo } from "react"
 import { useDataContext } from "../data/contexts"
 
 export const useEntries = () => {
-  const {
-    entries,
-    brands,
-    categories,
-    entryTypes,
-    badges,
-  } = useDataContext()
+  const { entries, brands, categories, entryTypes, badges } = useDataContext()
 
   const entriesModels = useMemo(() => {
     return entries.map((entry): IEntryModel => {
@@ -32,6 +26,7 @@ export const useEntries = () => {
       const type = entryTypes.find((type) => type.id === entry.type?.id)
 
       return {
+        id: String(entry.id),
         slug: entry.slug,
         title: entry.title,
         description: entry.description,

@@ -26,9 +26,15 @@ const EntriesSection = () => {
   }, [width])
 
   return (
-    <div className={cn("min-h-svh py-10 ring-green-400 mt-20 group/entriessection", {
-      "ready": columns !== null,
-    })}>
+    <div
+      className={cn(
+        "min-h-svh py-10 ring-green-400 mt-20 group/entriessection relative",
+        {
+          ready: columns !== null,
+        }
+      )}
+    >
+      {/* <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_100%_0,#000A,transparent_50%,#0008)] opacity-0 md:opacity-100 -z-10"></div> */}
       {/* <pre>
         <code>{JSON.stringify({ entriesModels }, null, 2)}</code>
       </pre> */}
@@ -197,7 +203,7 @@ export const TypeGroupSection: React.FC<{
       </div>
       <MasonryGrid columns={columns} className=" mx-auto w-full ">
         {projects.map((project, index) => (
-          <EntryCard key={project.slug} entry={project} index={index} />
+          <EntryCard key={project.id} entry={project} index={index} />
         ))}
       </MasonryGrid>
     </>

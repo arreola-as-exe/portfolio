@@ -1,5 +1,5 @@
-import SocialLinks from "../misc/SocialLinks";
-import { MainCategoriesHoverCard } from "../misc/MainCategoriesHoverCard";
+import SocialLinks from "../misc/SocialLinks"
+import { MainCategoriesHoverCard } from "../misc/MainCategoriesHoverCard"
 
 const MainBannerSection = () => {
   return (
@@ -7,13 +7,14 @@ const MainBannerSection = () => {
       id="start"
       className="h-svh relative grid items-center justify-center lg:grid-cols-2 pb-20 sm:pb-40 md:pb-0 w-full pt-10 sm:pt-0"
     >
+      <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_100%_100%,black,transparent_50%,#0008)] opacity-0 md:opacity-100"></div>
       <Left />
       <Right />
     </section>
-  );
-};
+  )
+}
 
-export default MainBannerSection;
+export default MainBannerSection
 
 export const Left = () => {
   return (
@@ -41,8 +42,8 @@ export const Left = () => {
 
       <SocialLinks />
     </div>
-  );
-};
+  )
+}
 
 export const Right = () => {
   return (
@@ -51,13 +52,15 @@ export const Right = () => {
     lg:items-end 2xl:items-center
     "
     >
-      <div className="
+      <div
+        className="
       md:-translate-y-24 
       lg:-translate-y-40 lg:-translate-x-20
       2xl:translate-y-0 2xl:-translate-x-20
-      ">
+      "
+      >
         <MainCategoriesHoverCard />
       </div>
     </div>
-  );
-};
+  )
+}

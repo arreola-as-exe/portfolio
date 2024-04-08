@@ -48,6 +48,7 @@ export type ImageItem = {
 export type Item = TextItem | LinkItem | ImageItem
 
 export interface IEntryModel {
+  id: string
   slug: string
   title: string
   description: string

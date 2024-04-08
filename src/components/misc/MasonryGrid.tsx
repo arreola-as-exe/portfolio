@@ -1,10 +1,10 @@
-import React from "react";
-import { cn } from "@/lib/utils";
+import React from "react"
+import { cn } from "@/lib/utils"
 
 const MasonryGrid: React.FC<{
-  columns: number;
-  className: string;
-  children: Iterable<React.ReactNode>;
+  columns: number
+  className: string
+  children: Iterable<React.ReactNode>
 }> = ({ columns, className, children }) => {
   // console.log("Rerender");
   return (
@@ -24,13 +24,11 @@ const MasonryGrid: React.FC<{
           </div>
         ))}
     </div>
-  );
-};
+  )
+}
 
 const MasonryGridMomoized = React.memo(MasonryGrid, (prev, next) => {
-  return prev.columns === next.columns && prev.className === next.className;
-});
+  return prev.columns === next.columns && prev.className === next.className
+})
 
-export {
-  MasonryGridMomoized as MasonryGrid
-}
+export { MasonryGridMomoized as MasonryGrid }
