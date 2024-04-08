@@ -12,6 +12,22 @@ import {
 } from "./data/api"
 import { DataProvider } from "./data/contexts"
 import { revalidateTag } from "next/cache"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Jorge Arreola - Portfolio",
+  description: "Fullstack Developer & System Admin",
+  authors: [
+    {
+      name: "Jorge Arreola",
+    },
+  ],
+  openGraph: {
+    images: {
+      url: "https://spec-welding-warming-mirror.trycloudflare.com/api/image",
+    },
+  },
+}
 
 export default async function Home() {
   const entries = await getEntries()
