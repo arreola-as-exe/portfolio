@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     images: {
-      url: "https://spec-welding-warming-mirror.trycloudflare.com/api/image",
+      url: process.env.HOSTNAME + "/api/image",
     },
   },
 }
