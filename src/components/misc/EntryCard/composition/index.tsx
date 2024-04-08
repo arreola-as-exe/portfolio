@@ -20,6 +20,7 @@ const ProjectContext = React.createContext<{
   data: IEntryModel
 }>({
   data: {
+    id: "",
     slug: "Dummy project",
     title: "Dummy project",
     description: "",
@@ -63,7 +64,7 @@ export const CardContainer: React.FC<{
     >
       <div
         className={cn(
-          "flex flex-col relative p-6 gap-1 py-10 h-[20rem] transition-all ease-out group opacity-0 group-[.ready]/entriessection:opacity-100 ",
+          "flex flex-col relative p-6 gap-1 py-10 h-[20rem] sm:transition-all ease-out group opacity-0 group-[.ready]/entriessection:opacity-100 ",
           [open && "h-[40rem]"],
           {
             "my-2": open,
@@ -336,11 +337,12 @@ const BackgroundImage = () => {
   const { image, slug, title } = useProjectData()
 
   const imgUrl =
-    image ?? `https://source.unsplash.com/random/800x600?sid=${slug}`
+    image ?? `https://source.unsplash.com/random/800x600?sid=${title}`
+  // return null
 
   return (
     <div
-      className="absolute inset-0 h-full w-full [transform-style:preserve-3d] [&>*]:[transform-style:preserve-3d] flex items-center align-center cursor-pointer"
+      className="absolute inset-0 h-full w-full [transform-style:preserve-3d] [&>*]:[transform-style:preserve-3d] flex items-center align-center cursor-pointer transition-all border-t-4 md:border-0 border-[rgba(var(--raw-color)/20%)] hover:border-[rgba(var(--raw-color)/40%)]"
       style={{
         transform: `rotateX(-20deg) rotateY(10deg) translateY(-0.8rem) scale(1.01,1.10)`,
       }}

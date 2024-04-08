@@ -35,9 +35,6 @@ const EntriesSection = () => {
       )}
     >
       {/* <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_100%_0,#000A,transparent_50%,#0008)] opacity-0 md:opacity-100 -z-10"></div> */}
-      {/* <pre>
-        <code>{JSON.stringify({ entriesModels }, null, 2)}</code>
-      </pre> */}
       {categories.map((category) => (
         <CategorySection
           key={category.label}

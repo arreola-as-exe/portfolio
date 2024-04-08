@@ -11,7 +11,7 @@ import {
 const API_URL = process.env.API_URL
 
 const handleApiFetch = async (endpoint: string, tags?: string[]) => {
-  const url = `${API_URL}${endpoint}`
+  const url = `${API_URL}${endpoint}?limit=100`
   const res = await fetch(url, {
     headers: {
       "xc-auth": process.env.API_TOKEN ?? "",

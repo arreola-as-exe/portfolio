@@ -1,36 +1,61 @@
-"use client";
-import { useMainCategories } from "@/app/hooks/useCategories";
-import { ICategory } from "@/domain/types";
-import { cn } from "@/lib/utils";
-import React, { createContext, useState, useContext } from "react";
-import { HoverBody, HoverContainer, HoverItem } from "../utils/3dCard";
-import { CategoryCircle } from "./CategoryCircle";
-import Image from "next/image";
+"use client"
+import { useMainCategories } from "@/app/hooks/useCategories"
+import { ICategory } from "@/domain/types"
+import { cn } from "@/lib/utils"
+import React, { createContext, useState, useContext } from "react"
+import { HoverBody, HoverContainer, HoverItem } from "../utils/3dCard"
+import { CategoryCircle } from "./CategoryCircle"
+import Image from "next/image"
 
 export const MainCategoriesHoverCard: React.FC<{
-  classname?: string;
+  classname?: string
 }> = ({ classname }) => {
-  const categories = useMainCategories();
-  const [hoveredCategory, setHoveredCategory] = useState<ICategory | null>(
-    null
-  );
+  const categories = useMainCategories()
+  const [hoveredCategory, setHoveredCategory] = useState<ICategory | null>(null)
+
+  const isMobile = useMobileDetect().isMobile()
+  const isDesktop = useMobileDetect().isDesktop()
+
+  const scrollToCategory = (category: ICategory) => {
+    document?.querySelector(`section#${category.slug}`)?.scrollIntoView({
+      behavior: "smooth",
+    })
+  }
+
+  const handleCategoryClick = (category: ICategory) => {
+    console.log(category, {
+      isMobile,
+      isDesktop,
+      hoveredCategory,
+    })
+    if (isMobile) {
+      if (category === hoveredCategory) {
+        scrollToCategory(category)
+      } else {
+        setHoveredCategory(category)
+      }
+
+    } else {
+      scrollToCategory(category)
+    }
+  }
 
   return (
     <HoverContainer
-      className={cn("inter-var  ")}
+      className={cn("inter-var")}
       style={
         {
           "--selectedcolor": `rgb(${hoveredCategory?.color})` || "#454c51",
         } as React.CSSProperties
       }
       onLeave={() => {
-        setHoveredCategory(null);
+        setHoveredCategory(null)
       }}
     >
       <HoverBody
         className={cn(
           ` relative group/card w-full aspect-square rounded-full p-3 
-          scale-[90%]
+          scale-[80%]
       sm:scale-[100%]
       md:scale-[110%] 
       lg:scale-[130%] 
@@ -89,19 +114,14 @@ export const MainCategoriesHoverCard: React.FC<{
           {categories.map((item, index, list) => (
             <CategoryCircle
               onClick={() => {
-                console.log(item);
-                document
-                  ?.querySelector(`section#${item.slug}`)
-                  ?.scrollIntoView({
-                    behavior: "smooth",
-                  });
+                handleCategoryClick(item)
               }}
               total={list.length}
               key={index}
               color={item.color}
               as="div"
               onSelect={() => {
-                setHoveredCategory(item);
+                setHoveredCategory(item)
               }}
               onDeselect={() => {
                 // setSelectedCategory(null);
@@ -126,5 +146,29 @@ export const MainCategoriesHoverCard: React.FC<{
         </div>
       </HoverBody>
     </HoverContainer>
-  );
-};
+  )
+}
+
+const getMobileDetect = (userAgent: string) => {
+  const isAndroid = (): boolean => Boolean(userAgent.match(/Android/i))
+  const isIos = (): boolean => Boolean(userAgent.match(/iPhone|iPad|iPod/i))
+  const isOpera = (): boolean => Boolean(userAgent.match(/Opera Mini/i))
+  const isWindows = (): boolean => Boolean(userAgent.match(/IEMobile/i))
+  const isSSR = (): boolean => Boolean(userAgent.match(/SSR/i))
+
+  const isMobile = (): boolean =>
+    Boolean(isAndroid() || isIos() || isOpera() || isWindows())
+  const isDesktop = (): boolean => Boolean(!isMobile() && !isSSR())
+  return {
+    isMobile,
+    isDesktop,
+    isAndroid,
+    isIos,
+    isSSR,
+  }
+}
+const useMobileDetect = () => {
+  const userAgent =
+    typeof navigator === "undefined" ? "SSR" : navigator.userAgent
+  return getMobileDetect(userAgent)
+}

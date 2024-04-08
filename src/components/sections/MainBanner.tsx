@@ -49,7 +49,7 @@ export const Right = () => {
   return (
     <div
       className=" h-full flex items-center justify-center w-full 
-    lg:items-end 2xl:items-center
+    lg:items-end 2xl:items-center overflow-x-clip sm:overflow-x-visible
     "
     >
       <div
