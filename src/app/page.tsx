@@ -9,7 +9,7 @@ import { Metadata } from "next"
 
 const url = process.env.PUBLIC_URL ?? ""
 
-export const dynamic = 'force-dynamic'
+//export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
@@ -53,11 +53,6 @@ export default async function Home() {
         <EntriesSection />
         <ContactSection />
       </DataProvider>
-      <pre><code>
-        {
-          JSON.stringify(data, null, 2)
-        }
-        </code></pre>
     </main>
   )
 }

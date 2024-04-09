@@ -5,6 +5,8 @@ const EMAIL = process.env.NOCO_EMAIL
 const PASS = process.env.NOCO_PASS
 
 export const handleLogin = async () => {
+	console.log({EMAIL, PASS})
+
   const res = await fetch(`${API_URL}/api/v1/auth/user/signin`, {
     method: "POST",
     headers: {
@@ -18,6 +20,7 @@ export const handleLogin = async () => {
   })
 
   if (!res.ok) {
+	  console.log(await res.json().catch( () => null ), res)
     throw new Error("Failed to login")
   }
 
