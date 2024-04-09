@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     dangerouslyAllowSVG: true,
+
     remotePatterns: [
       {
         protocol: 'https',
@@ -35,9 +36,18 @@ const nextConfig = {
       },
       {
         protocol: 'http',
-        hostname: 'kua-nocodb-nocodb-1',
+        hostname: 'kua-nocodb-nocodb-1', 
         port: '8080',
         pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**', 
+        port: '8080',
+      },
+      {
+        protocol: 'http',
+        hostname: '**', 
       }
     ],
   },
