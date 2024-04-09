@@ -21,7 +21,19 @@ services:
       - default
     env_file:
       - .env
-  
+    environment:
+      - PUBLIC_URL=${PUBLIC_URL}
+      - NOCO_EMAIL=${NOCO_EMAIL}
+      - NOCO_PASS=${NOCO_PASS}
+      - API_URL=${API_URL}
+      - API_ENDPOINT_LINKS=${API_ENDPOINT_LINKS}
+      - API_ENDPOINT_BRANDS=${API_ENDPOINT_BRANDS}
+      - API_ENDPOINT_ENTRIES=${API_ENDPOINT_ENTRIES}
+      - API_ENDPOINT_CATEGORIES=${API_ENDPOINT_CATEGORIES}
+      - API_ENDPOINT_BADGES=${API_ENDPOINT_BADGES}
+      - API_ENDPOINT_ENTRY_TYPES=${API_ENDPOINT_ENTRY_TYPES}
+      - ENTRIES_TO_BADGES_RECORD=${ENTRIES_TO_BADGES_RECORD}
+
   cloudflared:
     image: cloudflare/cloudflared
     restart: always

@@ -8,48 +8,41 @@ import {
   ILink,
   TRefId,
 } from "@/domain/types"
-const API_URL = process.env.API_URL
+import {
+  API_URL,
+  getFirstAttachmentAsSvg,
+  getFirstAttachmentPath,
+  handleApiFetch,
+  handleLogin,
+} from "./utils"
 
-const handleApiFetch = async (endpoint: string, tags?: string[]) => {
-  const url = `${API_URL}${endpoint}?limit=100`
-  const res = await fetch(url, {
-    headers: {
-      "xc-auth": process.env.API_TOKEN ?? "",
-    },
-    next: {
-      tags: tags ?? [],
-    },
-  })
+export const fetchAllData = async () => {
+  const token = await handleLogin()
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch data")
+  const [entries, categories, links, brands, badges, entryTypes] =
+    await Promise.all([
+      getEntries(token),
+      getCategories(token),
+      getLinks(token),
+      getBrands(token),
+      getBadges(token),
+      getEntryTypes(token),
+    ])
+
+  return {
+    entries,
+    categories,
+    links,
+    brands,
+    badges,
+    entryTypes,
   }
-
-  return res.json()
 }
 
-const handleSvgFetch = async (path: string) => {
-  const url = `${API_URL}/${path}`
-  return await fetch(url).then((res) => res.text())
-}
-
-const getFirstAttachmentPath = (attachments: any[]) => {
-  return attachments?.[0]?.path
-}
-
-// ---
-
-const getFirstAttachmentAsSvg = async (attachments: any[]) => {
-  const path = getFirstAttachmentPath(attachments)
-  return await handleSvgFetch(path)
-}
-
-export const getEntries = async () => {
+export const getEntries = async (token: string) => {
   const endpoint = process.env.API_ENDPOINT_ENTRIES ?? ""
 
-  const data = await handleApiFetch(endpoint, ["entries"])
-
-  // return data
+  const data = await handleApiFetch(endpoint, ["entries"], token)
 
   const entries: IEntry[] = []
 
@@ -65,7 +58,8 @@ export const getEntries = async () => {
       (entry.external_link_url && {
         url: entry.external_link_url,
         label: entry.external_link_label,
-        icon_svg: await getFirstAttachmentAsSvg(entry.external_link_svg) ?? null,
+        icon_svg:
+          (await getFirstAttachmentAsSvg(entry.external_link_svg)) ?? null,
       }) ||
       null
 
@@ -94,9 +88,9 @@ export const getEntries = async () => {
   return entries
 }
 
-export const getCategories = async (): Promise<ICategory[]> => {
+export const getCategories = async (token: string): Promise<ICategory[]> => {
   const endpoint = process.env.API_ENDPOINT_CATEGORIES ?? ""
-  const data = await handleApiFetch(endpoint, ["categories"])
+  const data = await handleApiFetch(endpoint, ["categories"], token)
 
   const categores: ICategory[] = []
 
@@ -116,9 +110,9 @@ export const getCategories = async (): Promise<ICategory[]> => {
   return categores
 }
 
-export const getLinks = async (): Promise<ILink[]> => {
+export const getLinks = async (token: string): Promise<ILink[]> => {
   const endpoint = process.env.API_ENDPOINT_LINKS ?? ""
-  const data = await handleApiFetch(endpoint, ["links"])
+  const data = await handleApiFetch(endpoint, ["links"], token)
 
   return data.list.map((link: any): ILink => {
     return {
@@ -129,9 +123,9 @@ export const getLinks = async (): Promise<ILink[]> => {
   })
 }
 
-export const getBrands = async () => {
+export const getBrands = async (token: string) => {
   const endpoint = process.env.API_ENDPOINT_BRANDS ?? ""
-  const data = await handleApiFetch(endpoint, ["brands"])
+  const data = await handleApiFetch(endpoint, ["brands"], token)
 
   const brands: IBrand[] = []
 
@@ -149,9 +143,9 @@ export const getBrands = async () => {
   return brands
 }
 
-export const getBadges = async () => {
+export const getBadges = async (token: string) => {
   const endpoint = process.env.API_ENDPOINT_BADGES ?? ""
-  const data = await handleApiFetch(endpoint)
+  const data = await handleApiFetch(endpoint, ["badges"], token)
 
   const badges: IBadge[] = []
 
@@ -169,9 +163,9 @@ export const getBadges = async () => {
   return badges
 }
 
-export const getEntryTypes = async () => {
+export const getEntryTypes = async (token: string) => {
   const endpoint = process.env.API_ENDPOINT_ENTRY_TYPES ?? ""
-  const data = await handleApiFetch(endpoint, ["entry_types"])
+  const data = await handleApiFetch(endpoint, ["entry_types"], token)
 
   const entryTypes: IEntryType[] = []
 
