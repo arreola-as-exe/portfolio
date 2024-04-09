@@ -27,6 +27,18 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: '172.24.0.3',
+        port: '8080',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'kua-nocodb-nocodb-1',
+        port: '8080',
+        pathname: '/**',
+      }
     ],
   },
 };

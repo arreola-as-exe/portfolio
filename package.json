@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
     "build": "next build",
-    "start": "next start -H 0.0.0.0",
-    "lint": "next lint"
+    "start": "next start -H 0.0.0.0 --port 3030",
+    "lint": "next lint",
+    "build_and_start": "npm run build && npm run start"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
@@ -22,6 +23,7 @@
     "react-dom": "^18",
     "react-icons": "^5.0.1",
     "react-visibility-sensor": "^5.1.1",
+    "sharp": "^0.33.3",
     "simple-icons": "^11.8.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7"

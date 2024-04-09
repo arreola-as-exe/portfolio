@@ -15,6 +15,7 @@ import { revalidateTag } from "next/cache"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.PUBLIC_URL ?? ""),
   title: "Jorge Arreola - Portfolio",
   description: "Fullstack Developer & System Admin",
   authors: [
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     images: {
-      url: process.env.HOSTNAME + "/api/image",
+      url: process.env.PUBLIC_URL + "/api/image",
     },
   },
 }
