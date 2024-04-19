@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache"
 
 export const API_URL = process.env.API_URL
 
@@ -5,13 +6,18 @@ const EMAIL = process.env.NOCO_EMAIL
 const PASS = process.env.NOCO_PASS
 
 export const handleLogin = async () => {
-	console.log({EMAIL, PASS})
+  console.log({ EMAIL, PASS })
+
+  revalidateTag('login')
 
   const res = await fetch(`${API_URL}/api/v1/auth/user/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "Xc-Gui": "true",
+    },
+    next: {
+      tags: ['login']
     },
     body: JSON.stringify({
       email: EMAIL,
@@ -20,7 +26,7 @@ export const handleLogin = async () => {
   })
 
   if (!res.ok) {
-	  console.log(await res.json().catch( () => null ), res)
+    console.log(await res.json().catch(() => null), res)
     throw new Error("Failed to login")
   }
 
@@ -45,7 +51,7 @@ export const handleApiFetch = async (
   })
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data")
+    throw new Error("Failed to fetch data" + (await res.text()))
   }
 
   return res.json()
